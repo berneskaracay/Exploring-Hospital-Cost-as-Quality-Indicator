@@ -47,6 +47,7 @@ library(shinydashboard)
 
 
 setwd("C:/Users/karacb1/Desktop/Medicare-Inpatient-Charge")
+###MEDICARE################
 medicare <- read_csv("data/Medicare_Provider_Charge_Inpatient_DRGALL_FY2016.csv")
 ######################Cost string to cost in integer############################
 medicare$`Average Total Payments`<-str_remove_all(medicare$`Average Total Payments`, "[,]")
@@ -59,9 +60,23 @@ medicare$`Average Covered Charges`<-as.numeric(gsub("\\$","",medicare$`Average C
 medicare$`Average Medicare Payments`<-str_remove_all(medicare$`Average Medicare Payments`, "[,]")
 medicare$`Average Medicare Payments`<-as.numeric(gsub("\\$","",medicare$`Average Medicare Payments`))
 
+medicare_var<-c("Provider Id" ,"Provider Name","Provider State", "Provider Zip Code","Provider City","Average Medicare Payments","DRG Definition")
+medicare_sub<- medicare[medicare_var]
 
 best_options<-medicare %>% 
   group_by(`Provider State`, `DRG Definition`) %>% 
   slice(which.min(`Average Medicare Payments`))
 
+###QUALITY################
+quality <- read_csv("data/HCAHPS - Hospital.csv")
+quality$`Patient Survey Star Rating`<- as.numeric(quality$`Patient Survey Star Rating`)
+quality<-subset(quality,!is.na(`Patient Survey Star Rating`))
+quality<-subset(quality,`HCAHPS Measure ID`=="H_STAR_RATING")
 
+quality_var<-c("Patient Survey Star Rating","Provider ID")
+quality_ranks<-quality[quality_var]
+
+
+####merge quality and price###################
+
+model_data <- merge(x=quality_ranks, y=medicare_sub, by.x=c("Provider ID"),by.y=c("Provider Id"), all.y=TRUE)
