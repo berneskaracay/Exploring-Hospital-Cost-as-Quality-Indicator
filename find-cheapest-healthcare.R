@@ -80,3 +80,10 @@ quality_ranks<-quality[quality_var]
 ####merge quality and price###################
 
 model_data <- merge(x=quality_ranks, y=medicare_sub, by.x=c("Provider ID"),by.y=c("Provider Id"), all.y=TRUE)
+saveRDS(model_data, "data/mymodel.rds")
+
+
+
+
+
+
