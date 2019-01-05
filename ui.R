@@ -16,7 +16,10 @@ shinyUI(dashboardPage(
                                label = "Medical Procedure",
                                choices = procedure,
                                selected = "101 - SEIZURES W/O MCC",
-                               selectize = TRUE)),
+                               selectize = TRUE),
+                   uiOutput("secondSelection")
+
+),
   
   dashboardBody(
     fluidRow(

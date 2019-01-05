@@ -22,16 +22,20 @@ library(mapproj)
 library(shinydashboard)
 
 mymodel <- readRDS("data/mymodel.rds")
+mymodel<-subset(mymodel,!is.na(mymodel$`Patient Survey Star Rating`))
 
 
 states <- as.data.frame(mymodel) %>% 
   select(`Provider State`) %>% 
-  unique()
+  distinct()%>% 
+  arrange((`Provider State`))
 
 quality <- as.data.frame(mymodel) %>% 
   select(`Patient Survey Star Rating`) %>% 
-  unique()
+  distinct()%>% 
+  arrange((`Patient Survey Star Rating`))
 
 procedure <- as.data.frame(mymodel) %>% 
   select(`DRG Definition`) %>% 
-  unique()
+  distinct()%>% 
+  arrange((`DRG Definition`))
