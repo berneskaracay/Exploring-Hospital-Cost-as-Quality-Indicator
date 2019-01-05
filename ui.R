@@ -17,7 +17,7 @@ shinyUI(dashboardPage(
                                choices = procedure,
                                selected = "101 - SEIZURES W/O MCC",
                                selectize = TRUE),
-                   uiOutput("secondSelection")
+                   uiOutput("secondSelection",)
 
 ),
   
