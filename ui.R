@@ -5,7 +5,7 @@ shinyUI(dashboardPage(
   dashboardSidebar(tags$blockquote("Select inputs below to filter dashboard."),
                    selectInput("quality",
                                label = "Quality",
-                               choices = quality,
+                               choices= quality,
                                selected = 4),
                    selectInput("state",
                                label = "State",

@@ -1,10 +1,17 @@
 # Define server logic
 shinyServer(function(input, output) {
+
+    df<-eventReactive(c(input$state,input$procedure,input$quality),ignoreInit=TRUE,{
+      if (input$quality != "All") { 
+        mymodel %>% 
+        filter(`Provider State`  == input$state & `DRG Definition`  == input$procedure & `Patient Survey Star Rating` == input$quality )
+      }else{
+        mymodel %>% 
+          filter(`Provider State`  == input$state & `DRG Definition`  == input$procedure)
+      }
+    })
   
-  df<-eventReactive(c(input$state,input$procedure,input$quality),ignoreInit=TRUE,{   
-    mymodel %>% 
-    filter(`Provider State`  == input$state & `DRG Definition`  == input$procedure & `Patient Survey Star Rating` == input$quality )
-  })
+
   
   output$secondSelection <- renderUI({
     max_value<-max(df()$`Average Medicare Payments`,na.rm=TRUE)
@@ -31,3 +38,4 @@ shinyServer(function(input, output) {
   
 
 })
+
