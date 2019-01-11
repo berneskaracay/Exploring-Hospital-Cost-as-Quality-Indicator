@@ -36,6 +36,24 @@ shinyServer(function(input, output) {
                                                               ))))
   
   
+  
+  output$costquality <- renderPlot({
+    
+    # create plot from filtered data
+    mymodel %>% 
+      filter(`Provider State`  == input$state & !is.na(`Patient Survey Star Rating`))%>% 
+      ggplot(
+        aes(x = `Average Medicare Payments`, y = `Patient Survey Star Rating`)
+      ) +
+      geom_point(
+        size = 2, color = 'skyblue1'
+      ) +
+      labs(y = 'Quality', x  = element_blank()) + 
+      coord_flip() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = 'none', axis.title.x = element_blank()) 
+    
+  })
+  
 
 })
 
