@@ -20,7 +20,7 @@ shinyUI(dashboardPage(
                     label = "Quality",
                     choices= quality,
                     selected = 4),
-        selectInput("state",
+        selectInput("cost_state",
                     label = "State",
                     choices = states,
                     selected = "TN",
@@ -36,22 +36,23 @@ shinyUI(dashboardPage(
           box(status = "primary",
               dataTableOutput("opioid_providers_table"), width = 12)
           )
-       )
-    ),
+       ),
+ 
       tabItem(tabName = "costquality",
               h3("Cost vs Quality"),
+              selectInput("costquality_state",
+                          label = "State",
+                          choices = states,
+                          selected = "OR",
+                          selectize = TRUE),
               fluidRow(
-                selectInput("state",
-                            label = "State",
-                            choices = states,
-                            selected = "OR",
-                            selectize = TRUE),
                 box(
                   status = "primary", solidHeader = TRUE,width=40,
                   plotOutput("costquality", height = 500, width = 800)
                 )
               )
       )
+    )
   )
 
 ))
