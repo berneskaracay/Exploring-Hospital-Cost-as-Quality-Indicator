@@ -33,7 +33,13 @@ shinyUI(dashboardPage(
         uiOutput("secondSelection"),
         # First tab content
         fluidRow(
-          box(status = "primary",
+          column(width = 8,
+                 valueBoxOutput("mean"))
+        ),
+      
+        fluidRow(
+          box(
+              status = "primary",
               dataTableOutput("opioid_providers_table"), width = 12)
           )
        ),

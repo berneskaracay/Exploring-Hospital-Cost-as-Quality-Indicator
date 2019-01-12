@@ -58,11 +58,9 @@ shinyServer(function(input, output) {
   output$mean <- renderValueBox({
     
     # filter providers dataset by state and year
-    state_data <-  mymodel %>% 
-      filter(`Provider State`  == input$costquality_state & !is.na(`Patient Survey Star Rating`))%>% 
     
     # create a line plot from filtered state data
-    valueBox(formatC(mean(state_data$`Average Medicare Payments`), digits = 1, format = "f"),
+    valueBox(formatC(mean(df()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"),
              subtitle = "Mean cost of Medical Procedure")
   })
   
