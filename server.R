@@ -64,6 +64,31 @@ shinyServer(function(input, output) {
              subtitle = "Mean cost of Medical Procedure")
   })
   
+  
+  
+  output$plot <- renderPlotly({
+    data<-mymodel %>% 
+      filter(`DRG Definition` == input$map_procedure)%>% group_by(state_names)%>% 
+      mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
+
+
+    l <- list(color = toRGB("white"), width = 2)
+    g <- list(
+      scope = 'usa',
+      projection = list(type = 'albers usa'),
+      showlakes = FALSE,
+      lakecolor = toRGB('white')
+    )
+    plot_geo(data, locationmode = 'USA-states') %>%
+      add_trace(
+        z = ~ mean1, locations = ~state_names, zmin = 0, zmax =100000,
+        colors = 'Reds'
+      ) %>%
+      colorbar(title = "Mean Cost \nPer State") %>%
+      layout(
+        geo = g)
+  })
+  
 
 })
 

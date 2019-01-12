@@ -7,7 +7,8 @@ shinyUI(dashboardPage(
                 h5('by Bernes Karacay', align = 'center'),
                 br(),
                 menuItem("Filter Data and Download", tabName = "cost", icon = icon("database")),
-                menuItem("Cost vs Quality", tabName = "costquality", icon = icon("map-marked-alt"))
+                menuItem("Cost vs Quality", tabName = "costquality", icon = icon("map-marked-alt")),
+                menuItem("Us Map", tabName = "mapstate", icon = icon("map-marked-alt"))
                 
     )
   ),
@@ -56,6 +57,17 @@ shinyUI(dashboardPage(
                   status = "primary", solidHeader = TRUE,width=40,
                   plotOutput("costquality", height = 500, width = 800)
                 )
+              )
+      ),
+      tabItem(tabName = "mapstate",
+              h3("Cost vs Quality"),
+              selectInput("map_procedure",
+                          label = "Medical Procedure",
+                          choices = procedure,
+                          selected = "101 - SEIZURES W/O MCC",
+                          selectize = TRUE),
+              fluidRow(
+                box(title ='Mean Cost per State', status = 'primary',solidHeader = T,plotlyOutput("plot", height = 600, width=800),width=10)
               )
       )
     )

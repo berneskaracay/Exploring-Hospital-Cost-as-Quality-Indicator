@@ -18,13 +18,21 @@ library(shinydashboard)
 library(tidyverse)
 library(DT)
 library(ggthemes)
+
 library(mapproj)
 library(shinydashboard)
+library(openintro)
+library(shinydashboard)
+library(tidyverse)
+library(ggplot2)
 
+library(scales)
+library(shinythemes)
+library(plotly)
 mymodel <- readRDS("data/mymodel.rds")
 #mymodel<-subset(mymodel,!is.na(mymodel$`Patient Survey Star Rating`))
 
-
+mymodel$state_names=abbr2state(mymodel$`Provider State`)
 states <- as.data.frame(mymodel) %>% 
   select(`Provider State`) %>% 
   distinct()%>% 
