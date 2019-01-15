@@ -11,7 +11,20 @@ shinyServer(function(input, output) {
       }
     })
   
-
+    usadf<-eventReactive(c(input$procedure,input$quality),ignoreInit=TRUE,{
+      if (input$quality != "All") { 
+        mymodel %>% 
+          filter(`DRG Definition`  == input$procedure & `Patient Survey Star Rating` == input$quality )
+      }else{
+        mymodel %>% 
+          filter(`DRG Definition`  == input$procedure)
+      }
+    })
+    
+    ggplotdf<-eventReactive(c(input$procedure,!is.na(`Patient Survey Star Rating`)),ignoreInit=TRUE,{
+        mymodel %>% 
+          filter(`DRG Definition`  == input$procedure)
+    })
   
   output$secondSelection <- renderUI({
     max_value<-max(df()$`Average Medicare Payments`,na.rm=TRUE)
@@ -41,7 +54,7 @@ shinyServer(function(input, output) {
     
     # create plot from filtered data
     mymodel %>% 
-      filter(`Provider State`  == input$costquality_state & !is.na(`Patient Survey Star Rating`))%>% 
+      filter(`Provider State`  == input$costquality_state & !is.na(`Patient Survey Star Rating`) & `DRG Definition`  == input$costquality_procedure )%>% 
       ggplot(
         aes(x = `Average Medicare Payments`, y = `Patient Survey Star Rating`)
       ) +
@@ -60,11 +73,18 @@ shinyServer(function(input, output) {
     # filter providers dataset by state and year
     
     # create a line plot from filtered state data
-    valueBox(formatC(mean(df()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"),
-             subtitle = "Mean cost of Medical Procedure")
+    valueBox(formatC(mean(usadf()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"),
+             subtitle = "USA Mean Cost of Medical Procedure")
   })
   
-  
+  output$correlation <- renderValueBox({
+    
+    # filter providers dataset by state and year
+    
+    # create a line plot from filtered state data
+    valueBox(formatC(cor(ggplotdf()$`Average Medicare Payments`, ggplotdf()$`Patient Survey Star Rating`,  method = "pearson", use = "complete.obs"), digits = 3, format = "f"),
+             subtitle = "USA Correlation Between Cost and Quality")
+  })
   
   output$plot <- renderPlotly({
     data<-mymodel %>% 

@@ -34,7 +34,7 @@ shinyUI(dashboardPage(
         uiOutput("secondSelection"),
         # First tab content
         fluidRow(
-          column(width = 8,
+          column(width = 10,
                  valueBoxOutput("mean"))
         ),
       
@@ -50,8 +50,18 @@ shinyUI(dashboardPage(
               selectInput("costquality_state",
                           label = "State",
                           choices = states,
-                          selected = "OR",
+                          selected = "TN",
                           selectize = TRUE),
+              selectInput("costquality_procedure",
+                          label = "Procedure",
+                          choices = procedure,
+                          selected = "101 - SEIZURES W/O MCC",
+                          selectize = TRUE),
+              fluidRow(
+                column(width = 10,
+                       valueBoxOutput("correlation"))
+              ),
+              
               fluidRow(
                 box(
                   status = "primary", solidHeader = TRUE,width=40,

@@ -22,6 +22,7 @@ library(mapproj)
 library(shinydashboard)
 library(openintro)
 library(plotly)
+setwd("C:/Users/karacb1/Desktop/Medicare-Inpatient-Charge")
 
 mymodel <- readRDS("data/mymodel.rds")
 #mymodel<-subset(mymodel,!is.na(mymodel$`Patient Survey Star Rating`))
@@ -61,41 +62,10 @@ g <- list(
 )
 plot_geo(data, locationmode = 'USA-states') %>%
   add_trace(
-    z = ~ mean1, locations = ~state_names, zmin = 0, zmax =100000,
-    colors = 'Reds'
+    z = ~ data$mean1, locations = ~state_names, color = ~ mean1, colors= 'Purples'
   ) %>%
   colorbar(title = "Mean Cost \nPer State") %>%
   layout(
     geo = g)
 
 
-
-library(plotly)
-df <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv")
-df$hover <- with(df, paste(state, '<br>', "Beef", beef, "Dairy", dairy, "<br>",
-                           "Fruits", total.fruits, "Veggies", total.veggies,
-                           "<br>", "Wheat", wheat, "Corn", corn))
-# give state boundaries a white border
-l <- list(color = toRGB("white"), width = 2)
-# specify some map projection/options
-g <- list(
-  scope = 'usa',
-  projection = list(type = 'albers usa'),
-  showlakes = TRUE,
-  lakecolor = toRGB('white')
-)
-
-p <- plot_geo(df, locationmode = 'USA-states') %>%
-  add_trace(
-    z = ~total.exports, text = ~hover, locations = ~code,
-    color = ~total.exports, colors = 'Purples'
-  ) %>%
-  colorbar(title = "Millions USD") %>%
-  layout(
-    title = '2011 US Agriculture Exports by State<br>(Hover for breakdown)',
-    geo = g
-  )
-
-# Create a shareable link to your chart
-# Set up API credentials: https://plot.ly/r/getting-started
-p
