@@ -32,7 +32,8 @@ library(plotly)
 mymodel <- readRDS("data/mymodel.rds")
 #mymodel<-subset(mymodel,!is.na(mymodel$`Patient Survey Star Rating`))
 
-mymodel$state_names=abbr2state(mymodel$`Provider State`)
+mymodel$state_names=mymodel$`Provider State`
+
 states <- as.data.frame(mymodel) %>% 
   select(`Provider State`) %>% 
   distinct()%>% 

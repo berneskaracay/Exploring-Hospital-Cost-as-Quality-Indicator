@@ -86,27 +86,40 @@ shinyServer(function(input, output) {
              subtitle = "USA Correlation Between Cost and Quality")
   })
   
+  
+
+  
+  
+  
+  
   output$plot <- renderPlotly({
     data<-mymodel %>% 
       filter(`DRG Definition` == input$map_procedure)%>% group_by(state_names)%>% 
       mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
+      
 
+    
+    data$state_names<-as.factor(usdata$state_names)
+    state_names<-data[,1]
+    mean1<-data[,2]
+    
+    
+    usdata <- data.frame(state_names, mean1)
+    
 
-    l <- list(color = toRGB("white"), width = 2)
+    #l <- list(color = toRGB("white"), width = 2)
     g <- list(
-      scope = 'usa',
-      projection = list(type = 'albers usa'),
-      showlakes = FALSE,
-      lakecolor = toRGB('white')
+      scope = 'usa'
     )
     plot_geo(data, locationmode = 'USA-states') %>%
       add_trace(
-        z = ~ mean1, locations = ~state_names, zmin = 0, zmax =100000,
-        colors = 'Reds'
+        z = ~ mean1, locations = ~state_names, colors= 'Purples'
       ) %>%
       colorbar(title = "Mean Cost \nPer State") %>%
       layout(
         geo = g)
+    
+    
   })
   
 

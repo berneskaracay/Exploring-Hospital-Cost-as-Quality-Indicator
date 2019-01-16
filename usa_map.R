@@ -54,7 +54,7 @@ usdata<-mymodel %>%
   filter(`DRG Definition` == "101 - SEIZURES W/O MCC")%>% group_by(state_names)%>% 
   mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
 
-usdata<-subset(usdata,state_names %nin% "DC")
+#usdata<-subset(usdata,state_names %nin% "DC")
 
 #usdata$state_names<-paste0("US-",usdata$state_names)
 
@@ -79,23 +79,15 @@ plot_geo(usdata, locationmode = 'USA-states') %>%
 
 
 
-library(plotly)
 
-#Create dataframe with toy data:
-LAND_ISO <- c("AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR")
-value <- runif(length(LAND_ISO), 1, 10)
 
-eudata <- data.frame(LAND_ISO, value)
 
-# Run your code:
-g <- list(
-  scope = 'europe')
 
-plot_geo(eudata) %>%
-  add_trace(
-    z = ~value, locations = ~LAND_ISO,
-    color = ~value, colors = 'Purples'
-  ) %>%
-  colorbar(title = "") %>%
-  layout(geo = g
-  )
+
+
+
+
+
+
+
+
