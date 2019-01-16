@@ -24,6 +24,7 @@ library(mapproj)
 library(shinydashboard)
 library(openintro)
 library(plotly)
+library(tidyverse)
 setwd("C:/Users/karacb1/Desktop/Medicare-Inpatient-Charge")
 
 mymodel <- readRDS("data/mymodel.rds")
@@ -32,7 +33,7 @@ mymodel <- readRDS("data/mymodel.rds")
 #mymodel$state_names=abbr2state(mymodel$`Provider State`)
 mymodel$state_names=mymodel$`Provider State`
 states <- mymodel %>% 
-  select(state_names) %>% 
+  select(`Provider State`) %>% 
   distinct()%>% 
   arrange(`Provider State`)
 
@@ -51,7 +52,7 @@ procedure <- as.data.frame(mymodel) %>%
 
 
 usdata<-mymodel %>% 
-  filter(`DRG Definition` == "101 - SEIZURES W/O MCC")%>% group_by(state_names)%>% 
+  filter(`DRG Definition` == "001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC")%>% group_by(state_names)%>% 
   mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
 
 #usdata<-subset(usdata,state_names %nin% "DC")
@@ -62,8 +63,21 @@ usdata$state_names<-as.factor(usdata$state_names)
 state_names<-usdata[,1]
 mean1<-usdata[,2]
 
-
 usdata <- data.frame(state_names, mean1)
+states1 <- as.vector(states$`Provider State`)
+states2 <- as.vector(state_names$state_names)
+for (i in states1) {
+  if(i %nin% states2){
+    temp <- c(i,0)
+    usdata <- rbind(usdata, temp)
+  } 
+}
+
+
+
+
+
+#usdata$mean1[is.na(usdata$mean1)] <- 0
 
 #l <- list(color = toRGB("white"), width = 2)
 g <- list(

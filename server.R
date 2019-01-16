@@ -96,15 +96,24 @@ shinyServer(function(input, output) {
     data<-mymodel %>% 
       filter(`DRG Definition` == input$map_procedure)%>% group_by(state_names)%>% 
       mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
-      
+   
+    data$state_names<-as.factor(data$state_names)
 
-    
-    data$state_names<-as.factor(usdata$state_names)
     state_names<-data[,1]
     mean1<-data[,2]
     
     
     usdata <- data.frame(state_names, mean1)
+    states1 <- as.vector(states$`Provider State`)
+    states2 <- as.vector(state_names$state_names)
+    for (i in states1) {
+      if(i %nin% states2){
+        temp <- c(i,0)
+        usdata <- rbind(usdata, temp)
+      } 
+    }
+    
+    
     
 
     #l <- list(color = toRGB("white"), width = 2)
