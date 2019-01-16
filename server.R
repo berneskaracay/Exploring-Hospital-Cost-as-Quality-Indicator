@@ -1,29 +1,29 @@
 # Define server logic
 shinyServer(function(input, output) {
 
-    df<-eventReactive(c(input$cost_state,input$procedure,input$quality),ignoreInit=TRUE,{
-      if (input$quality != "All") { 
+    df<-eventReactive(c(input$cost_state,input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
+      if (input$cost_quality != "All") { 
         mymodel %>% 
-        filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$procedure & `Patient Survey Star Rating` == input$quality )
+        filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
       }else{
         mymodel %>% 
-          filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$procedure)
+          filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure)
       }
     })
   
-    usadf<-eventReactive(c(input$procedure,input$quality),ignoreInit=TRUE,{
-      if (input$quality != "All") { 
+    usadf<-eventReactive(c(input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
+      if (input$cost_quality != "All") { 
         mymodel %>% 
-          filter(`DRG Definition`  == input$procedure & `Patient Survey Star Rating` == input$quality )
+          filter(`DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
       }else{
         mymodel %>% 
-          filter(`DRG Definition`  == input$procedure)
+          filter(`DRG Definition`  == input$cost_procedure)
       }
     })
     
-    ggplotdf<-eventReactive(c(input$procedure,!is.na(`Patient Survey Star Rating`)),ignoreInit=TRUE,{
+    ggplotdf<-eventReactive((input$costquality_procedure),ignoreInit=TRUE,{
         mymodel %>% 
-          filter(`DRG Definition`  == input$procedure)
+          filter(`DRG Definition`  == input$costquality_procedure,!is.na(`Patient Survey Star Rating`))
     })
   
   output$secondSelection <- renderUI({
@@ -54,7 +54,7 @@ shinyServer(function(input, output) {
     
     # create plot from filtered data
     mymodel %>% 
-      filter(`Provider State`  == input$costquality_state & !is.na(`Patient Survey Star Rating`) & `DRG Definition`  == input$costquality_procedure )%>% 
+      filter(!is.na(`Patient Survey Star Rating`) & `DRG Definition`  == input$costquality_procedure )%>% 
       ggplot(
         aes(x = `Average Medicare Payments`, y = `Patient Survey Star Rating`)
       ) +
