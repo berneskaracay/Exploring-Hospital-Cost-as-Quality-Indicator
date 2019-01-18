@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
           filter(`DRG Definition`  == input$cost_procedure)
       }
     })
-    
+ ####ggplot   
     ggplotdf<-eventReactive((input$costquality_procedure),ignoreInit=TRUE,{
         mymodel %>% 
           filter(`DRG Definition`  == input$costquality_procedure,!is.na(`Patient Survey Star Rating`))
