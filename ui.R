@@ -1,13 +1,13 @@
 # Define UI for application
 
 shinyUI(dashboardPage(
-  dashboardHeader(title = "Healthcare Cost and Quality"),
+  dashboardHeader(title = "Healthcare Cost and Quality",  titleWidth = 450),
   dashboardSidebar(
     sidebarMenu(
-                h5('by Bernes Karacay', align = 'center'),
+                h5('Select the option from below', align = 'center'),
                 br(),
                 menuItem("Filter Data and Download", tabName = "cost", icon = icon("database")),
-                menuItem("Cost vs Quality", tabName = "costquality", icon = icon("map-marked-alt")),
+                menuItem("Cost vs Quality", tabName = "costquality", icon = icon("bar-chart-o")),
                 menuItem("Us Map", tabName = "mapstate", icon = icon("map-marked-alt"))
                 
     )
