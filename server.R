@@ -59,11 +59,12 @@ shinyServer(function(input, output) {
         aes(x = `Average Medicare Payments`, y = `Patient Survey Star Rating`)
       ) +
       geom_point(
-        size = 1
-      ) +
-      labs(y = 'Quality', x  = element_blank()) + 
+        size = 2
+      ) + 
+      geom_smooth(method=lm, se=FALSE)+
+      labs(y = 'Quality', x  = 'Cost in $') + 
       coord_flip() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = 'none', axis.title.x = element_blank()) 
+      theme(axis.text.x = element_text(hjust = 1), legend.position = 'none',text = element_text(size=20)) 
     
   })
   
