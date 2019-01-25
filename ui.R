@@ -21,23 +21,23 @@ shinyUI(dashboardPage(
                           label = "Quality",
                           choices= quality,
                           selected = 4)),
-              div(style="display: inline-block;vertical-align:top; width: 100px;",HTML("<br>")),
+              div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
               div(style="display: inline-block;vertical-align:top; width: 150px;",selectInput("cost_state",
                           label = "State",
                           choices = states,
                           selected = "TN",
                           selectize = TRUE)),
-              div(style="display: inline-block;vertical-align:top; width: 100px;",HTML("<br>")),
+              div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
               div(style="display: inline-block;vertical-align:top; width: 250px;",selectInput("cost_procedure",
                           label = "Medical Procedure",
                           choices = procedure,
                           selected = "101 - SEIZURES W/O MCC",
                           selectize = TRUE)),
-              div(style="display: inline-block;vertical-align:top; width: 100px;",HTML("<br>")),
-              div(style="display: inline-block;vertical-align:top; width: 600px;",uiOutput("secondSelection")),
+              div(style="display: inline-block;vertical-align:top; width: 50px;",HTML("<br>")),
+              div(style="display: inline-block;vertical-align:top; width: 300px;",uiOutput("secondSelection")),
               # First tab content
               fluidRow(
-                column(width = 10,
+                column(width = 8,
                        valueBoxOutput("mean"))
               ),
               

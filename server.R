@@ -72,7 +72,7 @@ shinyServer(function(input, output) {
     # filter providers dataset by state and year
     
     # create a line plot from filtered state data
-    valueBox(formatC(mean(usadf()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"),
+    valueBox(paste0(formatC(mean(usadf()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"), "$"), icon = icon("dollar"),
              subtitle = "USA Mean Cost of Medical Procedure",color = "black")
   })
   
@@ -94,12 +94,12 @@ shinyServer(function(input, output) {
   output$plot <- renderPlotly({
     data<-mymodel %>% 
       filter(`DRG Definition` == input$map_procedure)%>% group_by(state_names)%>% 
-      mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
+      mutate(mean1=round(mean(`Average Medicare Payments`, na.rm = TRUE)),0)%>% select(state_names, mean1)%>%unique()
     
     data$state_names<-as.factor(data$state_names)
     
     state_names<-data[,1]
-    mean1<-data[,2]
+    mean1<-round(data[,2],0)
     
     
     usdata <- data.frame(state_names, mean1)
