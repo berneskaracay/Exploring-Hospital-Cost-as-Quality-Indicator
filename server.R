@@ -1,30 +1,30 @@
 # Define server logic
 shinyServer(function(input, output) {
-
-    df<-eventReactive(c(input$cost_state,input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
-      if (input$cost_quality != "All") { 
-        mymodel %>% 
-        filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
-      }else{
-        mymodel %>% 
-          filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure)
-      }
-    })
   
-    usadf<-eventReactive(c(input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
-      if (input$cost_quality != "All") { 
-        mymodel %>% 
-          filter(`DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
-      }else{
-        mymodel %>% 
-          filter(`DRG Definition`  == input$cost_procedure)
-      }
-    })
- ####ggplot   
-    ggplotdf<-eventReactive((input$costquality_procedure),ignoreInit=TRUE,{
-        mymodel %>% 
-          filter(`DRG Definition`  == input$costquality_procedure,!is.na(`Patient Survey Star Rating`))
-    })
+  df<-eventReactive(c(input$cost_state,input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
+    if (input$cost_quality != "All") { 
+      mymodel %>% 
+        filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
+    }else{
+      mymodel %>% 
+        filter(`Provider State`  == input$cost_state & `DRG Definition`  == input$cost_procedure)
+    }
+  })
+  
+  usadf<-eventReactive(c(input$cost_procedure,input$cost_quality),ignoreInit=TRUE,{
+    if (input$cost_quality != "All") { 
+      mymodel %>% 
+        filter(`DRG Definition`  == input$cost_procedure & `Patient Survey Star Rating` == input$cost_quality )
+    }else{
+      mymodel %>% 
+        filter(`DRG Definition`  == input$cost_procedure)
+    }
+  })
+  ####ggplot   
+  ggplotdf<-eventReactive((input$costquality_procedure),ignoreInit=TRUE,{
+    mymodel %>% 
+      filter(`DRG Definition`  == input$costquality_procedure,!is.na(`Patient Survey Star Rating`))
+  })
   
   output$secondSelection <- renderUI({
     max_value<-max(df()$`Average Medicare Payments`,na.rm=TRUE)
@@ -34,7 +34,7 @@ shinyServer(function(input, output) {
                 max = max_value,
                 value = c(min,max))
   })
-
+  
   output$opioid_providers_table <- renderDataTable({
     providers_table_data <- df()%>% 
       filter(`Average Medicare Payments`>=input$range[1] & `Average Medicare Payments`<=input$range[2])%>%
@@ -58,9 +58,7 @@ shinyServer(function(input, output) {
       ggplot(
         aes(x = `Average Medicare Payments`, y = `Patient Survey Star Rating`)
       ) +
-      geom_point(
-        size = 2
-      ) + 
+      geom_point() + geom_jitter(width = 0.1, height = 0.1)+
       geom_smooth(method=lm, se=FALSE)+
       labs(y = 'Quality', x  = 'Cost in $') + 
       coord_flip() +
@@ -75,7 +73,7 @@ shinyServer(function(input, output) {
     
     # create a line plot from filtered state data
     valueBox(formatC(mean(usadf()$`Average Medicare Payments`, na.rm=T), digits = 0, format = "f"),
-             subtitle = "USA Mean Cost of Medical Procedure")
+             subtitle = "USA Mean Cost of Medical Procedure",color = "black")
   })
   
   output$correlation <- renderValueBox({
@@ -84,11 +82,11 @@ shinyServer(function(input, output) {
     
     # create a line plot from filtered state data
     valueBox(formatC(cor(ggplotdf()$`Average Medicare Payments`, ggplotdf()$`Patient Survey Star Rating`,  method = "pearson", use = "complete.obs"), digits = 3, format = "f"),
-             subtitle = "USA Correlation Between Cost and Quality")
+             subtitle = "USA Correlation Between Cost and Quality",color = "black")
   })
   
   
-
+  
   
   
   
@@ -97,9 +95,9 @@ shinyServer(function(input, output) {
     data<-mymodel %>% 
       filter(`DRG Definition` == input$map_procedure)%>% group_by(state_names)%>% 
       mutate(mean1=mean(`Average Medicare Payments`, na.rm = TRUE))%>% select(state_names, mean1)%>%unique()
-   
+    
     data$state_names<-as.factor(data$state_names)
-
+    
     state_names<-data[,1]
     mean1<-data[,2]
     
@@ -116,7 +114,7 @@ shinyServer(function(input, output) {
     
     
     
-
+    
     #l <- list(color = toRGB("white"), width = 2)
     g <- list(
       scope = 'usa'
@@ -132,6 +130,5 @@ shinyServer(function(input, output) {
     
   })
   
-
+  
 })
-

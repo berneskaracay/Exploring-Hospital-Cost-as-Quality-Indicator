@@ -4,47 +4,47 @@ shinyUI(dashboardPage(
   dashboardHeader(title = "Healthcare Cost and Quality",  titleWidth = 450),
   dashboardSidebar(
     sidebarMenu(
-                h5('Select the option from below', align = 'center'),
-                br(),
-                menuItem("Filter Data and Download", tabName = "cost", icon = icon("database")),
-                menuItem("Cost vs Quality", tabName = "costquality", icon = icon("bar-chart-o")),
-                menuItem("Us Map", tabName = "mapstate", icon = icon("map-marked-alt"))
-                
+      h5('Select the option from below', align = 'center'),
+      br(),
+      menuItem("Filter Data and Download", tabName = "cost", icon = icon("database")),
+      menuItem("Cost vs Quality", tabName = "costquality", icon = icon("bar-chart-o")),
+      menuItem("Us Map", tabName = "mapstate", icon = icon("map-marked-alt"))
+      
     )
   ),
   
   dashboardBody(
     tabItems(
       tabItem(tabName = "cost",
-        h3("Select inputs below to filter dashboard."),
-        selectInput("cost_quality",
-                    label = "Quality",
-                    choices= quality,
-                    selected = 4),
-        selectInput("cost_state",
-                    label = "State",
-                    choices = states,
-                    selected = "TN",
-                    selectize = TRUE),
-        selectInput("cost_procedure",
-                    label = "Medical Procedure",
-                    choices = procedure,
-                    selected = "101 - SEIZURES W/O MCC",
-                    selectize = TRUE),
-        uiOutput("secondSelection"),
-        # First tab content
-        fluidRow(
-          column(width = 10,
-                 valueBoxOutput("mean"))
-        ),
+              h3("Select inputs below to filter dashboard."),
+              div(style="display: inline-block;vertical-align:top; width: 150px;",selectInput("cost_quality",
+                          label = "Quality",
+                          choices= quality,
+                          selected = 4)),
+              div(style="display: inline-block;vertical-align:top; width: 150px;",selectInput("cost_state",
+                          label = "State",
+                          choices = states,
+                          selected = "TN",
+                          selectize = TRUE)),
+              div(style="display: inline-block;vertical-align:top; width: 150px;",selectInput("cost_procedure",
+                          label = "Medical Procedure",
+                          choices = procedure,
+                          selected = "101 - SEIZURES W/O MCC",
+                          selectize = TRUE)),
+              uiOutput("secondSelection"),
+              # First tab content
+              fluidRow(
+                column(width = 10,
+                       valueBoxOutput("mean"))
+              ),
+              
+              fluidRow(
+                box(
+                  status = "primary",
+                  dataTableOutput("opioid_providers_table"), width = 12)
+              )
+      ),
       
-        fluidRow(
-          box(
-              status = "primary",
-              dataTableOutput("opioid_providers_table"), width = 12)
-          )
-       ),
- 
       tabItem(tabName = "costquality",
               h3("Cost vs Quality"),
               # selectInput("costquality_state",
@@ -82,5 +82,5 @@ shinyUI(dashboardPage(
       )
     )
   )
-
+  
 ))

@@ -1,4 +1,4 @@
-
+rm(list=ls())
 library(Hmisc)
 library(rms)
 library(MASS)
@@ -51,14 +51,14 @@ setwd("C:/Users/karacb1/Desktop/Medicare-Inpatient-Charge")
 medicare <- read_csv("data/Medicare_Provider_Charge_Inpatient_DRGALL_FY2016.csv")
 ######################Cost string to cost in integer############################
 medicare$`Average Total Payments`<-str_remove_all(medicare$`Average Total Payments`, "[,]")
-medicare$`Average Total Payments`<-as.numeric(gsub("\\$","",medicare$`Average Total Payments`))
+medicare$`Average Total Payments`<-round(as.numeric(gsub("\\$","",medicare$`Average Total Payments`)),0)
 
 medicare$`Average Covered Charges`<-str_remove_all(medicare$`Average Covered Charges`, "[,]")
-medicare$`Average Covered Charges`<-as.numeric(gsub("\\$","",medicare$`Average Covered Charges`))
+medicare$`Average Covered Charges`<-round(as.numeric(gsub("\\$","",medicare$`Average Covered Charges`)),0)
 
 
 medicare$`Average Medicare Payments`<-str_remove_all(medicare$`Average Medicare Payments`, "[,]")
-medicare$`Average Medicare Payments`<-as.numeric(gsub("\\$","",medicare$`Average Medicare Payments`))
+medicare$`Average Medicare Payments`<-round(as.numeric(gsub("\\$","",medicare$`Average Medicare Payments`)),0)
 
 medicare_var<-c("Provider Id" ,"Provider Name","Provider State", "Provider Zip Code","Provider City","Average Medicare Payments","DRG Definition")
 medicare_sub<- medicare[medicare_var]
