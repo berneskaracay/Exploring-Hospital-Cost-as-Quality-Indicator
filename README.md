@@ -3,8 +3,7 @@
 This Shiny application, written in R, was developed to give an overview of cost of healtcare in each states. [Click here to view and interact the application.]( https://berneskaracay.shinyapps.io/Medicare-Inpatient-Charge/) 
 
 ### Overview
-
-Stack Overflow has many groups separated by interests. Search of Stack Overflow is facilitated by proper topic tagging. Stack Exchange can be used to query Stack Overflow tags (and explore their popularity). Russian Stack Overflow is also a large and active community. Comparing tags of the English-speaking Stack Overflow to the Russian counterpart may reveal interesting trends.
+US healthcare is so expensive this app helps people to find cheapest and best hospital in their region.
 
 ### Motivation
 
