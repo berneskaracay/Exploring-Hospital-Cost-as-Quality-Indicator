@@ -1,4 +1,4 @@
-# US Health Care: Quality as an Indicator of Cost
+# Exploring Hospital Cost as Quality Indicator
 
 This Shiny application, written in R, was developed to give an overview of cost of healtcare in each states. [Click here to view and interact the application.]( https://berneskaracay.shinyapps.io/Medicare-Inpatient-Charge/) 
 
